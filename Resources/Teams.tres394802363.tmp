@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Teams" load_steps=2 format=3 uid="uid://i5jcnru5nd1"]
+
+[ext_resource type="Script" uid="uid://g6qi3m1xc7ya" path="res://Assets/Scripts/Teams.cs" id="1_ybxhg"]
+
+[resource]
+script = ExtResource("1_ybxhg")
+kColorsDic = Dictionary[int, Color]({
+0: Color(1, 1, 1, 1),
+1: Color(0, 0, 1, 1),
+2: Color(1, 0, 0, 1)
+})
+metadata/_custom_type_script = "uid://g6qi3m1xc7ya"

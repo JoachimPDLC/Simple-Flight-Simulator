@@ -1,0 +1,285 @@
+[gd_scene load_steps=33 format=3 uid="uid://cb3v852twyung"]
+
+[ext_resource type="Script" uid="uid://bw32kwcou7spo" path="res://Assets/Scripts/Plane.cs" id="1_pfcdf"]
+[ext_resource type="PackedScene" uid="uid://dlc0xrgiocu76" path="res://Scenes/Explosion.tscn" id="2_e7rj7"]
+[ext_resource type="Script" uid="uid://c3b2au4op8igp" path="res://Assets/Scripts/AiController.cs" id="4_bw16s"]
+[ext_resource type="Script" uid="uid://dfsff13uk6suj" path="res://Assets/Scripts/Weapons/MachineGun.cs" id="5_1bstd"]
+[ext_resource type="PackedScene" uid="uid://rwjq4ccmapja" path="res://Scenes/Bullet.tscn" id="6_34n7k"]
+[ext_resource type="Script" uid="uid://c50cgn7mslcq5" path="res://Assets/Scripts/Weapons/Missiles/MissileSystem.cs" id="7_sctif"]
+[ext_resource type="PackedScene" uid="uid://h24i44vbm1v3" path="res://Scenes/Missile.tscn" id="8_qkn12"]
+[ext_resource type="Script" uid="uid://ccbrdxohwfkvw" path="res://Assets/Scripts/States/StateMachine.cs" id="9_5mvxx"]
+[ext_resource type="Script" uid="uid://dg1kjasda6fu5" path="res://Assets/Scripts/States/DodgeMissile.cs" id="10_hrs2n"]
+[ext_resource type="Script" uid="uid://bunj0jw574kga" path="res://Assets/Scripts/MinMaxF.cs" id="11_34n7k"]
+[ext_resource type="Script" uid="uid://dl80hwe06maw7" path="res://Assets/Scripts/States/DogFight.cs" id="11_x31p4"]
+[ext_resource type="Script" uid="uid://c7bv7gl8qymoh" path="res://Assets/Scripts/States/ApproachPlayer.cs" id="12_3tnnq"]
+[ext_resource type="Script" uid="uid://ctf7mk4x5r17k" path="res://Assets/Scripts/States/PullUp.cs" id="13_cnvjc"]
+[ext_resource type="PackedScene" uid="uid://c0bg5e555jnrh" path="res://Scenes/EngineAfterburner.tscn" id="14_bq7k0"]
+[ext_resource type="AudioStream" uid="uid://bg314p6ttl8wr" path="res://Assets/Sounds/minigun.mp3" id="15_cbk4m"]
+[ext_resource type="AudioStream" uid="uid://c68onwnbkaqaj" path="res://Assets/Sounds/firing.mp3" id="16_cjoho"]
+[ext_resource type="Script" uid="uid://bd4wt1l5eha8t" path="res://Assets/Scripts/GameEntityComponent.cs" id="17_e7rj7"]
+[ext_resource type="AudioStream" uid="uid://dr28ghis2yi5x" path="res://Assets/Sounds/idle.mp3" id="17_sctif"]
+[ext_resource type="Texture2D" uid="uid://crkd82dhche0u" path="res://Assets/Textures/Triangle.png" id="18_bw16s"]
+[ext_resource type="Script" uid="uid://dr7veuxew1q3m" path="res://Assets/Scripts/MinimapObject.cs" id="19_1bstd"]
+[ext_resource type="Resource" uid="uid://i5jcnru5nd1" path="res://Resources/Teams.tres" id="19_34n7k"]
+[ext_resource type="PackedScene" uid="uid://cu21c0o450cvf" path="res://Scenes/f_15.tscn" id="21_34n7k"]
+[ext_resource type="PackedScene" uid="uid://rka02o5jqlko" path="res://Scenes/EngineAudio.tscn" id="23_qkn12"]
+
+[sub_resource type="Curve" id="Curve_bedbu"]
+_data = [Vector2(0, 0.502759), 0.0, 4.28894, 0, 0, Vector2(0.114583, 0.830449), 0.144487, 0.144487, 0, 0, Vector2(1, 1), -0.162365, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kbql0"]
+size = Vector3(4.79833, 6.62445, 2.03402)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cgct3"]
+radius = 550.0
+height = 1750.0
+
+[sub_resource type="Resource" id="Resource_sctif"]
+script = ExtResource("11_34n7k")
+Min = 10.0
+Max = 50.0
+metadata/_custom_type_script = "uid://bunj0jw574kga"
+
+[sub_resource type="Resource" id="Resource_34n7k"]
+script = ExtResource("11_34n7k")
+Min = -20.0
+Max = 20.0
+metadata/_custom_type_script = "uid://bunj0jw574kga"
+
+[sub_resource type="Resource" id="Resource_qkn12"]
+script = ExtResource("11_34n7k")
+Min = 5.0
+Max = 10.0
+metadata/_custom_type_script = "uid://bunj0jw574kga"
+
+[sub_resource type="Resource" id="Resource_5mvxx"]
+script = ExtResource("11_34n7k")
+Min = 10.0
+Max = 15.0
+metadata/_custom_type_script = "uid://bunj0jw574kga"
+
+[sub_resource type="Resource" id="Resource_hrs2n"]
+script = ExtResource("11_34n7k")
+Min = 5.0
+Max = 10.0
+metadata/_custom_type_script = "uid://bunj0jw574kga"
+
+[sub_resource type="Resource" id="Resource_x31p4"]
+script = ExtResource("11_34n7k")
+Min = 2.5
+Max = 5.0
+metadata/_custom_type_script = "uid://bunj0jw574kga"
+
+[node name="Plane" type="RigidBody3D" node_paths=PackedStringArray("m_controller", "m_afterBurners", "m_gameEntityComponent", "m_machineGun", "m_missileSystem", "m_sensorCone", "m_machineGunAudio") groups=["Enemies", "ResetNodes", "ShowOnMinimap"]]
+physics_interpolation_mode = 2
+gravity_scale = 0.0
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, 0, -0.869635)
+can_sleep = false
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 5
+linear_velocity = Vector3(0, 0, 325)
+linear_damp = 0.35
+angular_damp = 0.85
+script = ExtResource("1_pfcdf")
+m_controller = NodePath("AiController")
+m_explosionScene = ExtResource("2_e7rj7")
+m_afterBurners = [NodePath("EngineAfterburner"), NodePath("EngineAfterburner2")]
+m_gameEntityComponent = NodePath("GameEntityComponent")
+m_team = 2
+m_machineGun = NodePath("MachineGun")
+m_missileSystem = NodePath("MissileSystem")
+m_sensorCone = NodePath("SensorCone")
+m_lockOnTime = 0.5
+m_maxSpeed = 1556.0
+m_cruisingSpeed = 325.0
+m_throttleSpeed = 0.2
+m_minThrottle = -0.001
+m_maxThrottle = 0.7
+m_flapsRetractSpeed = 125.0
+m_stallSpeed = 130
+m_stallForce = 200
+m_stalllingInputCut = 0.1
+m_turnSpeed = Vector3(390, 110, 270)
+m_turnAcceleration = Vector3(780, 180, 540)
+m_simpleTurnSpeed = Vector3(390, 270, 270)
+m_simpleTurnAcceleration = Vector3(780, 540, 540)
+m_steeringCurve = SubResource("Curve_bedbu")
+m_machineGunAudio = NodePath("MachineGunAudio")
+metadata/_custom_type_script = "uid://bw32kwcou7spo"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, -6.55671e-08, -1.5, 0, 1.5, -6.55671e-08, 0.286826, 1.05069, 0.136917)
+shape = SubResource("BoxShape3D_kbql0")
+debug_color = Color(0.932429, 2.30065e-05, 0.648773, 0.42)
+
+[node name="AiController" type="Node" parent="." node_paths=PackedStringArray("m_stateMachine", "m_plane")]
+script = ExtResource("4_bw16s")
+m_missileCareDistance = 1000
+m_minimumDangerHeight = 1000
+m_minimumSafeHeight = 2000
+m_stateMachine = NodePath("../StateMachine")
+m_plane = NodePath("..")
+metadata/_custom_type_script = "uid://c3b2au4op8igp"
+
+[node name="MachineGun" type="Node3D" parent="." node_paths=PackedStringArray("m_owner")]
+transform = Transform3D(0.950271, 0, 0.311423, 0, 1, 0, -0.311423, 0, 0.950271, -0.717956, 0.101118, 1.20266)
+script = ExtResource("5_1bstd")
+m_owner = NodePath("..")
+m_bulletScene = ExtResource("6_34n7k")
+m_bulletRateOfFire = 150000
+m_bulletSpawnVelocity = 500.0
+m_bulletDmg = 5
+m_bulletTeam = 2
+m_angleVariance = 5.0
+m_forwardVariance = 10.0
+m_bulletTimeVariance = 15000
+metadata/_custom_type_script = "uid://dfsff13uk6suj"
+
+[node name="MissileSystem" type="Node" parent="." node_paths=PackedStringArray("m_hardpoints", "m_owner", "m_launchAudio")]
+script = ExtResource("7_sctif")
+m_hardpoints = [NodePath("../Hardpoint1"), NodePath("../Hardpoint2")]
+m_totalAmmo = 999
+m_infiniteAmmo = true
+m_owner = NodePath("..")
+m_missileReloadTime = 4.0
+m_missileScene = ExtResource("8_qkn12")
+m_damage = 30
+m_thrust = 30060.0
+m_turnSpeed = 0.15
+m_triggerRange = 5.0
+m_flightTime = 30.0
+m_detectionAngle = 20
+m_launchAudio = NodePath("../MissileLaunchAudio")
+metadata/_custom_type_script = "uid://c50cgn7mslcq5"
+
+[node name="Hardpoint1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -0.25, -2)
+
+[node name="Hardpoint2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.25, -2)
+
+[node name="SensorCone" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SensorCone"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 837.219)
+shape = SubResource("CapsuleShape3D_cgct3")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("m_owner")]
+script = ExtResource("9_5mvxx")
+m_initialState = "AP"
+m_owner = NodePath("../AiController")
+metadata/_custom_type_script = "uid://ccbrdxohwfkvw"
+
+[node name="DodgeMissile" type="Node" parent="StateMachine" node_paths=PackedStringArray("m_owner")]
+script = ExtResource("10_hrs2n")
+m_dogFightState = "DF"
+m_perpendicularityThreshold = 0.4
+m_owner = NodePath("..")
+kId = "DM"
+metadata/_custom_type_script = "uid://dg1kjasda6fu5"
+
+[node name="DogFight" type="Node" parent="StateMachine" node_paths=PackedStringArray("m_refreshOffsetTimer", "m_oppTimer", "m_oppCheckGraceTimer", "m_oppCheckTimer", "m_owner")]
+script = ExtResource("11_x31p4")
+m_dodgeMissileState = "DM"
+m_PullUpState = "PU"
+m_neutralDistance = 2000.0
+m_brakeDistance = 500.0
+m_interceptPositionRadius = 200.0
+m_missileWaitTime = 5.0
+m_missileWaitTimeVariance = 1.0
+kOffsetDistance = SubResource("Resource_sctif")
+kOffsetHeight = SubResource("Resource_34n7k")
+kRefeshOffsetTime = SubResource("Resource_qkn12")
+m_refreshOffsetTimer = NodePath("OffsetRefresh")
+kOppLength = SubResource("Resource_5mvxx")
+kOppCheckGrace = SubResource("Resource_hrs2n")
+kOppCheckInterval = SubResource("Resource_x31p4")
+kOppChance = 20.0
+m_oppTimer = NodePath("Opportunity")
+m_oppCheckGraceTimer = NodePath("OpportunityCheckGrace")
+m_oppCheckTimer = NodePath("OpportunityCheck")
+m_owner = NodePath("..")
+kId = "DF"
+metadata/_custom_type_script = "uid://dl80hwe06maw7"
+
+[node name="OffsetRefresh" type="Timer" parent="StateMachine/DogFight"]
+autostart = true
+
+[node name="Opportunity" type="Timer" parent="StateMachine/DogFight"]
+one_shot = true
+
+[node name="OpportunityCheckGrace" type="Timer" parent="StateMachine/DogFight"]
+one_shot = true
+
+[node name="OpportunityCheck" type="Timer" parent="StateMachine/DogFight"]
+one_shot = true
+
+[node name="ApproachPlayer" type="Node" parent="StateMachine" node_paths=PackedStringArray("m_owner")]
+script = ExtResource("12_3tnnq")
+m_slowdownDistance = 2000
+m_brakeDistance = 1250
+m_transitionRange = 6000
+m_dogFightState = "DF"
+m_dodgeMissileState = "DM"
+m_PullUpState = "PU"
+m_owner = NodePath("..")
+kId = "AP"
+metadata/_custom_type_script = "uid://c7bv7gl8qymoh"
+
+[node name="PullUp" type="Node" parent="StateMachine" node_paths=PackedStringArray("m_owner")]
+script = ExtResource("13_cnvjc")
+m_approachPlayerState = "AP"
+m_owner = NodePath("..")
+kId = "PU"
+metadata/_custom_type_script = "uid://ctf7mk4x5r17k"
+
+[node name="EngineAfterburner" parent="." instance=ExtResource("14_bq7k0")]
+transform = Transform3D(-1.31134e-08, 0, 0.3, 0, 0.3, 0, -0.3, 0, -1.31134e-08, 0.455589, -0.065, -3.82055)
+
+[node name="EngineAfterburner2" parent="." instance=ExtResource("14_bq7k0")]
+transform = Transform3D(-1.31134e-08, 0, 0.3, 0, 0.3, 0, -0.3, 0, -1.31134e-08, -0.408563, -0.065, -3.82055)
+
+[node name="MachineGunAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("15_cbk4m")
+volume_db = -8.5
+bus = &"Sounds"
+
+[node name="MissileLaunchAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("16_cjoho")
+volume_db = -4.0
+pitch_scale = 0.9
+max_polyphony = 2
+bus = &"Sounds"
+
+[node name="IdleEngine" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("17_sctif")
+volume_db = -5.0
+bus = &"Sounds"
+doppler_tracking = 1
+parameters/looping = true
+
+[node name="GameEntityComponent" type="Node" parent="."]
+script = ExtResource("17_e7rj7")
+m_maxHealth = 60
+metadata/_custom_type_script = "uid://bd4wt1l5eha8t"
+
+[node name="MinimapObject" type="Sprite3D" parent="." node_paths=PackedStringArray("m_object")]
+transform = Transform3D(50, 0, 0, 0, -2.18557e-06, -50, 0, 50, -2.18557e-06, 0, 1, 0)
+top_level = true
+visible = false
+layers = 2
+texture = ExtResource("18_bw16s")
+script = ExtResource("19_1bstd")
+m_object = NodePath("..")
+kTeamsResource = ExtResource("19_34n7k")
+metadata/_custom_type_script = "uid://dr7veuxew1q3m"
+
+[node name="f15" parent="." node_paths=PackedStringArray("m_plane") instance=ExtResource("21_34n7k")]
+transform = Transform3D(-1.31134e-07, 0, 3, 0, 3, 0, -3, 0, -1.31134e-07, 0, -1.9, 1.555)
+m_plane = NodePath("..")
+
+[node name="AudioStreamInteractive" parent="." node_paths=PackedStringArray("m_plane") instance=ExtResource("23_qkn12")]
+m_plane = NodePath("..")

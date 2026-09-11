@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://b27p324ysqt2m"]
+
+[ext_resource type="Script" uid="uid://dfsff13uk6suj" path="res://Assets/Scripts/Weapons/MachineGun.cs" id="1_qlvb2"]
+[ext_resource type="AudioStream" uid="uid://bg314p6ttl8wr" path="res://Assets/Sounds/minigun.mp3" id="2_ahpvq"]
+
+[node name="MachineGun" type="Node3D"]
+physics_interpolation_mode = 2
+script = ExtResource("1_qlvb2")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_ahpvq")
+parameters/looping = true

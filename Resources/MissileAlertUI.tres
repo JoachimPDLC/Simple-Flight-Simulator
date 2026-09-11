@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://clxyfnwsmipgt"]
+
+[resource]
+render_priority = 1
+transparency = 1
+no_depth_test = true
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 0, 0, 0.501961)

@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://26s28cg3a3dx"]
+
+[ext_resource type="Script" uid="uid://cr58aaesrapel" path="res://Assets/Scripts/Console/DevConsole.cs" id="1_4eon7"]
+[ext_resource type="Script" uid="uid://bjfyjrgnotssm" path="res://Assets/Scripts/DevConsoleCommands.cs" id="2_gm7w2"]
+
+[node name="DevConsole" type="CanvasLayer" node_paths=PackedStringArray("m_container", "m_label", "m_lineEdit", "m_commands")]
+script = ExtResource("1_4eon7")
+m_container = NodePath("MarginContainer")
+m_label = NodePath("MarginContainer/VBoxContainer/RichTextLabel")
+m_lineEdit = NodePath("MarginContainer/VBoxContainer/LineEdit")
+m_commands = NodePath("DevConsoleCommands")
+metadata/_custom_type_script = "uid://cr58aaesrapel"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 1918.0
+offset_bottom = 374.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
+color = Color(0.398929, 0.290932, 0.320085, 0.604)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+placeholder_text = "..."
+
+[node name="DevConsoleCommands" type="Node" parent="."]
+script = ExtResource("2_gm7w2")
+metadata/_custom_type_script = "uid://bjfyjrgnotssm"

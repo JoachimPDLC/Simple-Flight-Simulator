@@ -1,0 +1,130 @@
+[gd_scene load_steps=18 format=3 uid="uid://dlc0xrgiocu76"]
+
+[ext_resource type="Script" uid="uid://bhld6g6u1nwtf" path="res://Assets/Scripts/Explosion.cs" id="1_wcvtd"]
+[ext_resource type="Shader" uid="uid://bc10oeoti3mmu" path="res://Assets/Shaders/SmokeShader.gdshader" id="2_5pvja"]
+[ext_resource type="AudioStream" uid="uid://dmdh7fq1erwig" path="res://Assets/Sounds/explosion.mp3" id="3_rhy4c"]
+
+[sub_resource type="Gradient" id="Gradient_li25b"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_n4djn"]
+noise_type = 2
+frequency = 0.1407
+fractal_type = 2
+fractal_octaves = 2
+fractal_lacunarity = 0.225
+fractal_gain = 8.01
+fractal_weighted_strength = 0.43
+cellular_jitter = 0.98
+domain_warp_enabled = true
+domain_warp_amplitude = 5.0
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_li25b"]
+width = 128
+height = 128
+depth = 128
+invert = true
+seamless = true
+seamless_blend_skirt = 0.321
+color_ramp = SubResource("Gradient_li25b")
+noise = SubResource("FastNoiseLite_n4djn")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tnik3"]
+render_priority = 0
+shader = ExtResource("2_5pvja")
+shader_parameter/NoiseTexture = SubResource("NoiseTexture3D_li25b")
+shader_parameter/NoiseTexturePower = 0.361
+shader_parameter/NoiseTextureSoftness = 0.096
+shader_parameter/ColorTint = Color(0.188235, 0.156863, 0.156863, 1)
+shader_parameter/AlphaCutoff = 0.278
+shader_parameter/TimeScale = 0.29
+shader_parameter/NoiseScale = 0.05
+shader_parameter/EmissionPower = 1.0
+shader_parameter/EmissionAlphaPower = 1.0
+shader_parameter/DisplacementScale = 0.2
+
+[sub_resource type="Gradient" id="Gradient_o0x32"]
+interpolation_mode = 2
+interpolation_color_space = 2
+offsets = PackedFloat32Array(0, 0.0320641, 0.0561122, 0.0881764, 0.11022, 0.182365, 0.859719)
+colors = PackedColorArray(1, 1, 1, 1, 0.798291, 0.564644, 0.190479, 1, 0.511875, 0.317744, 0.217736, 1, 0.393203, 0.0836126, 0.124326, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_n4djn"]
+gradient = SubResource("Gradient_o0x32")
+use_hdr = true
+
+[sub_resource type="Curve" id="Curve_n4djn"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6sfjf"]
+curve = SubResource("Curve_n4djn")
+
+[sub_resource type="Curve" id="Curve_o0x32"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_tnik3"]
+curve = SubResource("Curve_o0x32")
+
+[sub_resource type="Curve" id="Curve_li25b"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0646921, 0.373187), 0.0769208, 0.0769208, 0, 0, Vector2(1, 1), 0.811482, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ai44l"]
+curve = SubResource("Curve_li25b")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o0x32"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_min = -396.1
+angle_max = 257.0
+direction = Vector3(0, 1, 0)
+spread = 90.0
+initial_velocity_min = 2.0
+initial_velocity_max = 3.0
+gravity = Vector3(0, 1, 0)
+linear_accel_min = 1.9
+linear_accel_max = 2.0
+linear_accel_curve = SubResource("CurveTexture_tnik3")
+damping_min = 2.5
+damping_max = 3.0
+scale_min = 16.0
+scale_max = 32.0
+scale_curve = SubResource("CurveTexture_ai44l")
+color_ramp = SubResource("GradientTexture1D_n4djn")
+emission_curve = SubResource("CurveTexture_6sfjf")
+turbulence_enabled = true
+turbulence_noise_scale = 0.592
+turbulence_noise_speed_random = 0.94
+turbulence_influence_min = 0.01
+turbulence_influence_max = 0.02
+
+[sub_resource type="SphereMesh" id="SphereMesh_ai44l"]
+radius = 1.0
+height = 2.0
+
+[node name="Explosion" type="Node3D"]
+script = ExtResource("1_wcvtd")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+material_override = SubResource("ShaderMaterial_tnik3")
+cast_shadow = 2
+gi_mode = 0
+emitting = false
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+visibility_aabb = AABB(-3.36587, -1.86097, -4.01688, 6.73882, 5.03641, 7.08134)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_o0x32")
+draw_pass_1 = SubResource("SphereMesh_ai44l")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_rhy4c")
+volume_db = 20.0
+autoplay = true
+bus = &"Sounds"

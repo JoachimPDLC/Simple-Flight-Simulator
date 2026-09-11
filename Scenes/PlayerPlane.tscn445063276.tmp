@@ -1,0 +1,201 @@
+[gd_scene load_steps=22 format=3 uid="uid://cyrjua1hoc3ks"]
+
+[ext_resource type="Script" uid="uid://bw32kwcou7spo" path="res://Assets/Scripts/Plane.cs" id="1_d55yf"]
+[ext_resource type="PackedScene" uid="uid://dlc0xrgiocu76" path="res://Scenes/Explosion.tscn" id="2_2e214"]
+[ext_resource type="PackedScene" uid="uid://b27p324ysqt2m" path="res://Scenes/MachineGun.tscn" id="5_tfmvc"]
+[ext_resource type="PackedScene" uid="uid://rwjq4ccmapja" path="res://Scenes/Bullet.tscn" id="6_awece"]
+[ext_resource type="Script" uid="uid://c50cgn7mslcq5" path="res://Assets/Scripts/Weapons/Missiles/MissileSystem.cs" id="7_f2x8e"]
+[ext_resource type="PackedScene" uid="uid://h24i44vbm1v3" path="res://Scenes/Missile.tscn" id="8_cgct3"]
+[ext_resource type="AudioStream" uid="uid://bg314p6ttl8wr" path="res://Assets/Sounds/minigun.mp3" id="10_bedbu"]
+[ext_resource type="PackedScene" uid="uid://c0bg5e555jnrh" path="res://Scenes/EngineAfterburner.tscn" id="10_k6jko"]
+[ext_resource type="AudioStream" uid="uid://c68onwnbkaqaj" path="res://Assets/Sounds/firing.mp3" id="11_bedbu"]
+[ext_resource type="AudioStream" uid="uid://d054rijk08712" path="res://Assets/Sounds/missile alert.mp3" id="12_phwvl"]
+[ext_resource type="Script" uid="uid://bd4wt1l5eha8t" path="res://Assets/Scripts/GameEntityComponent.cs" id="13_4otig"]
+[ext_resource type="AudioStream" uid="uid://cys02shpiyk5b" path="res://Assets/Sounds/tone.mp3" id="13_kbql0"]
+[ext_resource type="Texture2D" uid="uid://crkd82dhche0u" path="res://Assets/Textures/Triangle.png" id="14_lxms5"]
+[ext_resource type="Resource" uid="uid://i5jcnru5nd1" path="res://Resources/Teams.tres" id="15_2ijco"]
+[ext_resource type="Script" uid="uid://dr7veuxew1q3m" path="res://Assets/Scripts/MinimapObject.cs" id="15_dybqt"]
+[ext_resource type="Material" uid="uid://bveov15ortw6a" path="res://Resources/3DUIMat.tres" id="16_r5ynn"]
+[ext_resource type="PackedScene" uid="uid://cu21c0o450cvf" path="res://Scenes/f_15.tscn" id="17_r5ynn"]
+
+[sub_resource type="Curve" id="Curve_bedbu"]
+_data = [Vector2(0, 0.502759), 0.0, 4.28894, 0, 0, Vector2(0.114583, 0.830449), 0.144487, 0.144487, 0, 0, Vector2(1, 1), -0.162365, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kbql0"]
+size = Vector3(4.79833, 6.62445, 2.03402)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cgct3"]
+radius = 1000.0
+height = 2500.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fagqx"]
+material = ExtResource("16_r5ynn")
+top_radius = 0.3
+bottom_radius = 0.3
+height = 4800.0
+
+[node name="Plane" type="RigidBody3D" node_paths=PackedStringArray("m_afterBurners", "m_gameEntityComponent", "m_machineGun", "m_missileSystem", "m_sensorCone", "m_machineGunAudio", "m_lockOnToneAudio", "m_missileAlertBeepAudio", "m_alertBeepAudio") groups=["Player", "ShowOnMinimap"]]
+gravity_scale = 0.0
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, 0, -0.869635)
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 5
+linear_velocity = Vector3(0, 0, 325)
+linear_damp = 0.35
+angular_damp = 0.85
+script = ExtResource("1_d55yf")
+m_explosionScene = ExtResource("2_2e214")
+m_explosionParticleScale = 30.0
+m_afterBurners = [NodePath("EngineAfterburner"), NodePath("EngineAfterburner2")]
+m_gameEntityComponent = NodePath("GameEntityComponent")
+m_team = 1
+m_machineGun = NodePath("MachineGun")
+m_missileSystem = NodePath("MissileSystem")
+m_sensorCone = NodePath("Area3D")
+m_lockOnTime = 0.5
+m_maxSpeed = 1556.0
+m_cruisingSpeed = 325.0
+m_brakeSpeed = 0.1
+m_throttleSpeed = 0.15
+m_minThrottle = -0.01
+m_maxThrottle = 0.7
+m_stallSpeed = 65
+m_stallRotPower = 0.001
+m_stallForce = 200
+m_stalllingInputCut = 0.01
+m_turnSpeed = Vector3(390, 110, 270)
+m_turnAcceleration = Vector3(780, 180, 540)
+m_simpleTurnSpeed = Vector3(390, 270, 270)
+m_simpleTurnAcceleration = Vector3(780, 540, 540)
+m_steeringCurve = SubResource("Curve_bedbu")
+m_machineGunAudio = NodePath("MachineGunAudio")
+m_lockOnToneAudio = NodePath("LockOnToneAudio")
+m_missileAlertBeepAudio = NodePath("MissileAlertAudio")
+m_baseTimeBetweenMissileBeeps = 4.0
+m_missileBeepAdjustmentDistance = 2000.0
+m_alertBeepAudio = NodePath("AlertAudio")
+m_minTimeBetweenAlertBeeps = 1.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, -6.55671e-08, -1.5, 0, 1.5, -6.55671e-08, 0.286826, 1.05069, 0.136917)
+shape = SubResource("BoxShape3D_kbql0")
+debug_color = Color(0.932429, 2.30065e-05, 0.648773, 0.42)
+
+[node name="MachineGun" parent="." node_paths=PackedStringArray("m_owner") instance=ExtResource("5_tfmvc")]
+transform = Transform3D(0.950271, 0, 0.311423, 0, 1, 0, -0.311423, 0, 0.950271, -0.717956, 0.101118, 1.20266)
+m_owner = NodePath("..")
+m_bulletScene = ExtResource("6_awece")
+m_bulletRateOfFire = 150000
+m_bulletSpawnVelocity = 1000.0
+m_bulletDmg = 5
+m_bulletTeam = 1
+m_angleVariance = 1.0
+m_forwardVariance = 10.0
+m_bulletTimeVariance = 15000
+
+[node name="MissileSystem" type="Node" parent="." node_paths=PackedStringArray("m_hardpoints", "m_owner", "m_launchAudio")]
+script = ExtResource("7_f2x8e")
+m_hardpoints = [NodePath("../Hardpoint1"), NodePath("../Hardpoint2")]
+m_totalAmmo = 20
+m_owner = NodePath("..")
+m_missileReloadTime = 2.0
+m_missileScene = ExtResource("8_cgct3")
+m_damage = 30
+m_thrust = 55000.0
+m_turnSpeed = 0.5
+m_triggerRange = 10.0
+m_flightTime = 60.0
+m_detectionAngle = 45
+m_launchAudio = NodePath("../MissileLaunchAudio")
+metadata/_custom_type_script = "uid://c50cgn7mslcq5"
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 1250)
+shape = SubResource("CapsuleShape3D_cgct3")
+
+[node name="Hardpoint1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -0.25, -2)
+
+[node name="Hardpoint2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.25, -2)
+
+[node name="EngineAfterburner" parent="." instance=ExtResource("10_k6jko")]
+transform = Transform3D(-1.31134e-08, 0, 0.3, 0, 0.3, 0, -0.3, 0, -1.31134e-08, 0.455589, -0.065, -3.82055)
+
+[node name="EngineAfterburner2" parent="." instance=ExtResource("10_k6jko")]
+transform = Transform3D(-1.31134e-08, 0, 0.3, 0, 0.3, 0, -0.3, 0, -1.31134e-08, -0.408563, -0.065, -3.82055)
+
+[node name="MachineGunAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("10_bedbu")
+volume_db = -8.5
+bus = &"Sounds"
+parameters/looping = true
+
+[node name="MissileLaunchAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("11_bedbu")
+volume_db = -4.0
+pitch_scale = 0.9
+max_polyphony = 2
+bus = &"Sounds"
+
+[node name="MissileAlertAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("12_phwvl")
+volume_db = -2.0
+pitch_scale = 0.9
+max_polyphony = 20
+bus = &"Sounds"
+
+[node name="AlertAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("12_phwvl")
+volume_db = -1.0
+pitch_scale = 1.05
+max_polyphony = 20
+bus = &"Sounds"
+
+[node name="LockOnToneAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("13_kbql0")
+volume_db = -5.0
+bus = &"Sounds"
+parameters/looping = true
+
+[node name="GameEntityComponent" type="Node" parent="."]
+script = ExtResource("13_4otig")
+m_maxHealth = 100
+metadata/_custom_type_script = "uid://bd4wt1l5eha8t"
+
+[node name="MinimapObject" type="Sprite3D" parent="." node_paths=PackedStringArray("m_object")]
+transform = Transform3D(100, 0, 0, 0, -4.37114e-06, -100, 0, 100, -4.37114e-06, 0, 0, 0)
+top_level = true
+visible = false
+layers = 2
+texture = ExtResource("14_lxms5")
+script = ExtResource("15_dybqt")
+m_object = NodePath("..")
+kTeamsResource = ExtResource("15_2ijco")
+metadata/_custom_type_script = "uid://dr7veuxew1q3m"
+
+[node name="NSLine" type="MeshInstance3D" parent="MinimapObject"]
+transform = Transform3D(1, 0, 0, 0, 1, 2.4869e-14, 0, -2.4869e-14, 1, 0, 0, 0.5)
+layers = 2
+mesh = SubResource("CylinderMesh_fagqx")
+
+[node name="WELine" type="MeshInstance3D" parent="MinimapObject"]
+transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 1.42109e-14, -4.37114e-08, 1, 1, 4.37114e-08, -1.42109e-14, 0, 0, 0.5)
+layers = 2
+mesh = SubResource("CylinderMesh_fagqx")
+
+[node name="f15" parent="." node_paths=PackedStringArray("m_plane", "m_airLayerParticles") instance=ExtResource("17_r5ynn")]
+transform = Transform3D(-1.31134e-07, 0, 3, 0, 3, 0, -3, 0, -1.31134e-07, 0, -1.9, 1.555)
+m_plane = NodePath("..")
+m_airLayerParticles = []
+kMaxStabilatorAngleDeg = 0.0
+kMaxRudderAngleDeg = 0.0
+kMaxAileronAngleDeg = 0.0
+kMaxAirBrakeAngleDeg = 0.0
+kLerpWeight = 0.1

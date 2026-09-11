@@ -1,0 +1,24 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://by2yd3avwus53"]
+
+[ext_resource type="StyleBox" uid="uid://c3ch86uhj1b66" path="res://Resources/PanelStyle.tres" id="1_f4vj7"]
+[ext_resource type="StyleBox" uid="uid://cv8fvb68hxfh1" path="res://Resources/StyleHover.tres" id="2_8syc6"]
+
+[resource]
+default_font_size = 30
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/constants/outline_size = 8
+Button/styles/disabled = ExtResource("1_f4vj7")
+Button/styles/focus = ExtResource("1_f4vj7")
+Button/styles/hover = ExtResource("2_8syc6")
+Button/styles/hover_pressed = ExtResource("1_f4vj7")
+Button/styles/normal = ExtResource("1_f4vj7")
+Button/styles/pressed = ExtResource("1_f4vj7")
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 8
+Label/font_sizes/font_size = 30

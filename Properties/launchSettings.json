@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "New Game Project": {
+      "commandName": "Project"
+    },
+    "Godot": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\joach\\Desktop\\Godot\\Godot_v4.4.1-stable_mono_win64\\Godot_v4.4.1-stable_mono_win64\\Godot_v4.4.1-stable_mono_win64.exe",
+      "workingDirectory": ".",
+      "nativeDebugging": true
+    }
+  }
+}

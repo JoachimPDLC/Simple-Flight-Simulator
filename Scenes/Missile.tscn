@@ -1,0 +1,127 @@
+[gd_scene load_steps=20 format=3 uid="uid://h24i44vbm1v3"]
+
+[ext_resource type="Script" uid="uid://dtqo32qgjwsl7" path="res://Assets/Scripts/Weapons/Missiles/Missile.cs" id="1_p2ti6"]
+[ext_resource type="PackedScene" uid="uid://dlc0xrgiocu76" path="res://Scenes/Explosion.tscn" id="2_7ghqc"]
+[ext_resource type="ArrayMesh" uid="uid://n7o874elie80" path="res://Assets/Models/MIssle_Body.res" id="3_cuu5t"]
+[ext_resource type="ArrayMesh" uid="uid://c4opty2hshw5x" path="res://Assets/Models/MIssle_Fin.res" id="4_4jj67"]
+[ext_resource type="Texture2D" uid="uid://cm803k7ptxbii" path="res://Assets/Images/particle_sprite_smoke.webp" id="5_h0dpi"]
+[ext_resource type="Script" uid="uid://c1qharfcpv6sx" path="res://Assets/Scripts/ParticleHandler.cs" id="6_7ghqc"]
+[ext_resource type="Texture2D" uid="uid://kcrr4autouuv" path="res://Assets/Textures/Line.png" id="7_4jj67"]
+[ext_resource type="Script" uid="uid://dr7veuxew1q3m" path="res://Assets/Scripts/MinimapObject.cs" id="8_h0dpi"]
+[ext_resource type="Resource" uid="uid://i5jcnru5nd1" path="res://Resources/Teams.tres" id="9_h0dpi"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wy3aq"]
+radius = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0sc8w"]
+albedo_color = Color(0.196423, 0.205341, 0.20757, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fenu4"]
+albedo_color = Color(0.0796728, 2.07143e-05, 0.102914, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5onpw"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("5_h0dpi")
+albedo_texture_msdf = true
+refraction_scale = -0.65
+uv1_scale = Vector3(1.195, 1.195, 1.195)
+uv2_scale = Vector3(0, 0, 0)
+disable_receive_shadows = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 8
+particles_anim_v_frames = 8
+particles_anim_loop = false
+grow_amount = 16.0
+msdf_pixel_range = 1.0
+
+[sub_resource type="Gradient" id="Gradient_0sc8w"]
+offsets = PackedFloat32Array(0, 0.163121, 0.51773, 0.989362)
+colors = PackedColorArray(1, 1, 1, 0.792157, 0.968627, 0.968627, 0.968627, 0.92549, 0.498039, 0.498039, 0.498039, 0.815686, 0.668629, 0.668629, 0.668629, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_h0dpi"]
+gradient = SubResource("Gradient_0sc8w")
+
+[sub_resource type="Curve" id="Curve_0sc8w"]
+_data = [Vector2(0, 0), 0.0, 1.20793, 0, 0, Vector2(0.5, 0.409091), 0.527163, 0.527163, 0, 0, Vector2(0.987319, 0.982094), 4.45762, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_1lads"]
+curve = SubResource("Curve_0sc8w")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0sc8w"]
+emission_shape = 1
+emission_sphere_radius = 0.6
+angle_min = -255.8
+angle_max = 1.07288e-05
+direction = Vector3(-1, 0, 0)
+angular_velocity_min = -5.00002
+angular_velocity_max = 4.99998
+gravity = Vector3(0, -0.01, 0)
+scale_curve = SubResource("CurveTexture_1lads")
+color_ramp = SubResource("GradientTexture1D_h0dpi")
+anim_speed_min = 0.5
+anim_speed_max = 1.0
+anim_offset_max = 0.1
+
+[sub_resource type="QuadMesh" id="QuadMesh_bg26n"]
+size = Vector2(500, 500)
+
+[node name="Missile" type="RigidBody3D" node_paths=PackedStringArray("m_particleHandler", "m_smokeParticle", "m_minimapObject") groups=["ResetNodes", "ShowOnMinimap"]]
+physics_interpolation_mode = 2
+collision_layer = 0
+collision_mask = 2
+gravity_scale = 0.5
+can_sleep = false
+continuous_cd = true
+script = ExtResource("1_p2ti6")
+m_explosionScene = ExtResource("2_7ghqc")
+m_particleHandler = NodePath("ParticleHandler")
+m_smokeParticle = NodePath("ParticleHandler/GPUParticles3D")
+m_minimapObject = NodePath("MinimapObject")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 3.59989e-21, 4.37114e-08, -1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_wy3aq")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(-3.49691e-08, 0, 0.8, 0, 0.8, 0, -0.8, 0, -3.49691e-08, 0, 0, 0)
+mesh = ExtResource("3_cuu5t")
+surface_material_override/0 = SubResource("StandardMaterial3D_0sc8w")
+
+[node name="Fins" type="MeshInstance3D" parent="."]
+transform = Transform3D(3.0598e-08, -2.67496e-15, -0.7, -6.11959e-08, -0.7, 0, -0.7, 6.11959e-08, -3.0598e-08, 0, 0, 0)
+mesh = ExtResource("4_4jj67")
+surface_material_override/0 = SubResource("StandardMaterial3D_fenu4")
+
+[node name="ParticleHandler" type="Node3D" parent="." node_paths=PackedStringArray("particles")]
+script = ExtResource("6_7ghqc")
+particles = NodePath("GPUParticles3D")
+metadata/_custom_type_script = "uid://c1qharfcpv6sx"
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="ParticleHandler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.871596)
+material_override = SubResource("StandardMaterial3D_5onpw")
+gi_mode = 2
+gi_lightmap_texel_scale = 2.0
+amount = 500
+lifetime = 12.0
+randomness = 0.1
+fixed_fps = 60
+interpolate = false
+visibility_aabb = AABB(-10000, -10000, -10000, 20000, 20000, 20000)
+draw_order = 3
+process_material = SubResource("ParticleProcessMaterial_0sc8w")
+draw_pass_1 = SubResource("QuadMesh_bg26n")
+
+[node name="MinimapObject" type="Sprite3D" parent="." node_paths=PackedStringArray("m_object")]
+transform = Transform3D(80, 0, 0, 0, -3.49691e-06, -80, 0, 80, -3.49691e-06, 0, 0, 0)
+top_level = true
+layers = 2
+texture = ExtResource("7_4jj67")
+script = ExtResource("8_h0dpi")
+m_object = NodePath("..")
+kTeamsResource = ExtResource("9_h0dpi")
+metadata/_custom_type_script = "uid://dr7veuxew1q3m"

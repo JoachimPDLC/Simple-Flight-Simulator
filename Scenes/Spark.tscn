@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnfv7pgw01eo6"]
+
+[ext_resource type="Script" uid="uid://cbuuwx1lvtfgc" path="res://Assets/Scripts/Spark.cs" id="1_u4rxq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aijp4"]
+albedo_color = Color(1, 1, 0.0862745, 1)
+emission_enabled = true
+emission = Color(1, 0.607843, 0.0862745, 1)
+emission_energy_multiplier = 1.53
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_aijp4"]
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 4.0
+initial_velocity_max = 8.0
+scale_min = 0.5
+scale_max = 1.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_u4rxq"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[node name="Spark" type="Node3D"]
+script = ExtResource("1_u4rxq")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+material_override = SubResource("StandardMaterial3D_aijp4")
+emitting = false
+amount = 16
+one_shot = true
+explosiveness = 1.0
+randomness = 0.7
+process_material = SubResource("ParticleProcessMaterial_aijp4")
+draw_pass_1 = SubResource("BoxMesh_u4rxq")
