@@ -1,12 +1,15 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "New Game Project", "New Game Project.csproj", "{2EE73457-BEAD-4518-88E8-92AF4076E7CE}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple Flight Simulator", "Simple Flight Simulator.csproj", "{2EE73457-BEAD-4518-88E8-92AF4076E7CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-	Debug|Any CPU = Debug|Any CPU
-	ExportDebug|Any CPU = ExportDebug|Any CPU
-	ExportRelease|Any CPU = ExportRelease|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2EE73457-BEAD-4518-88E8-92AF4076E7CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -15,5 +18,8 @@ Global
 		{2EE73457-BEAD-4518-88E8-92AF4076E7CE}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{2EE73457-BEAD-4518-88E8-92AF4076E7CE}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{2EE73457-BEAD-4518-88E8-92AF4076E7CE}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
