@@ -32,7 +32,7 @@ window/stretch/mode="viewport"
 
 [dotnet]
 
-project/assembly_name="New Game Project"
+project/assembly_name="Simple Flight Simulator"
 
 [editor_plugins]
 
